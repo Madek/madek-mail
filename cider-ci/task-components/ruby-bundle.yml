@@ -1,0 +1,13 @@
+traits:
+  asdf: true
+
+scripts:
+  mail-ruby-bundle:
+    exclusive_executor_resource: asdf-ruby
+    timeout: 20 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $MADEK_MAIL_DIR
+      ./bin/env/ruby-setup
+      bundle

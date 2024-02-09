@@ -1,0 +1,19 @@
+generate_tasks:
+  include_match: spec/fake_smtp/.*_spec.rb
+task_defaults:
+  include: cider-ci/task-components/fake-smtp-server.yml
+  scripts:
+    test:
+      body: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        cd $MADEK_MAIL_DIR
+
+        export MADEK_MAIL_SMTP_DOMAIN="example.com"
+        unset PGPORT; unset PGUSER
+        PGPORT=${PG15PORT} PGUSER=${PG15USER} \
+          ./bin/rspec $CIDER_CI_TASK_FILE
+      start_when:
+        gems are bundled:
+          script_key: mail-ruby-bundle
+          states: [passed]

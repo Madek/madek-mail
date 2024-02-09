@@ -1,0 +1,49 @@
+traits:
+  JDK: true
+
+scripts:
+  run-mail-server:
+    start_when:
+      uberjar has been built:
+        script_key: build-mail-uberjar
+      database has been created:
+        script_key: create-database
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $MADEK_MAIL_DIR
+      mkdir tmp
+      unset PGPORT; unset PGUSER
+      PGPORT=${PG15PORT} PGUSER=${PG15USER} \
+        java -jar madek-mail.jar --db-name ${DATABASE} --pid-file tmp/service.pid run "$@"
+
+  mail-server-is-running:
+    start_when:
+      run mail server is executing:
+        script_key: run-mail-server
+        states: [executing]
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $MADEK_MAIL_DIR
+      until test -f tmp/service.pid -a -n tmp/service.pid;
+        do sleep 1;
+      done
+
+  test:
+    start_when:
+      mail server is running:
+        script_key: mail-server-is-running
+
+  shutdown-mail-server:
+    start_when:
+      test is terminal:
+        script_key: test
+        states: [aborted, defective, passed, failed, skipped]
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $MADEK_MAIL_DIR
+      export PID=$(cat tmp/service.pid)
+      kill $PID
+      tail --pid=$PID -f /dev/null

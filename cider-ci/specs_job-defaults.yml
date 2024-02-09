@@ -1,0 +1,43 @@
+depends_on: &DEPS
+  build-mail-uberjar was successful:
+    type: job
+    job_key: build-mail-uberjar
+    states: [passed]
+
+run_when: *DEPS
+
+context:
+  task_defaults:
+    include:
+      - path: cider-ci/task-components/database.yml
+        submodule: [datalayer]
+      - cider-ci/task-components/ruby-bundle.yml
+      - cider-ci/task-components/server.yml
+      - cider-ci/task-components/uberjar.yml
+
+    git_options:
+      submodules:
+        include_match: ^.*$
+
+    max_trials: 2
+
+    traits:
+      asdf: true
+
+    ports:
+      MADEK_MAIL_POP3_PORT:
+        min: 3980
+        max: 3989
+      MADEK_MAIL_SMTP_PORT:
+        min: 3990
+        max: 3999
+
+    environment_variables:
+      PGVERSION: "15"
+      DATABASE: "madek_mail_{{CIDER_CI_TRIAL_ID}}"
+      DATALAYER_DIR: "{{MADEK_MAIL_DIR}}/datalayer"
+      MADEK_MAIL_DIR: "{{CIDER_CI_WORKING_DIR}}"
+      MADEK_SECRET: "{{CIDER_CI_TRIAL_ID}}"
+      MADEK_MAIL_SEND_FREQUENCY_IN_SECONDS: "1"
+      MADEK_MAIL_RETRIES_IN_SECONDS: "[5,10]"
+      RAILS_ENV: "test"

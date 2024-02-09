@@ -1,0 +1,16 @@
+tasks:
+  unreachable smtp server spec:
+    name: "Unreachable smtp server spec"
+    scripts:
+      test:
+        body: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+          export MADEK_MAIL_SMTP_DOMAIN="example.com"
+          unset PGPORT; unset PGUSER
+          PGPORT=${PG15PORT} PGUSER=${PG15USER} \
+            ./bin/rspec ./spec/smtp_server_unreachable_spec.rb
+        start_when:
+          gems are bundled:
+            script_key: mail-ruby-bundle
+            states: [passed]

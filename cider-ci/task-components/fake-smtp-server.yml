@@ -1,0 +1,30 @@
+scripts:
+
+  run-fake-smtp-server:
+    start_when:
+      bundled:
+        script_key: mail-ruby-bundle
+    timeout: 5 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail 
+      cd $MADEK_MAIL_DIR
+      ./bin/run_fake_smtp
+
+  test:
+    start_when:
+      fake-smtp-server is running:
+        script_key: run-fake-smtp-server
+        states: [executing]
+
+  shutdown_fake-stmp-server:
+    timeout: 3 Seconds
+    start_when:
+      test is terminal:
+        script_key: test
+        states: [aborted, defective, passed, failed, skipped]
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail 
+      SMTP_PID=`lsof -t -i :$MADEK_MAIL_SMTP_PORT`
+      kill -SIGINT $SMTP_PID

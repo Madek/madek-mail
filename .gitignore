@@ -1,0 +1,11 @@
+.cpcache/
+.nrepl-history
+.nrepl-port
+fake-mailbox/
+log/
+madek-mail.jar
+mailbox/
+resources/built-info.yml
+src/dev/scratch.clj
+target/
+tmp/

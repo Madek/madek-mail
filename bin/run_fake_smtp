@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x 
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
+./bin/env/ruby-setup
+
+LEIHS_MAIL_SMTP_PORT=${MADEK_MAIL_SMTP_PORT:-25}
+LEIHS_MAIL_POP3_PORT=${MADEK_MAIL_POP3_PORT:-110}
+
+echo "smtp port: $MADEK_MAIL_SMTP_PORT"
+echo "pop3 port: $MADEK_MAIL_POP3_PORT"
+
+mkdir -p fake-mailbox
+mkdir -p log
+touch log/fake_smtp.log
+echo '' > log/fake_smtp.log
+
+bundle exec post_office \
+  -v \
+  -l log/fake_smtp.log \
+  -s $MADEK_MAIL_SMTP_PORT \
+  -p $MADEK_MAIL_POP3_PORT \
+  -m './fake-mailbox'
