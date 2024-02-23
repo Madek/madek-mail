@@ -16,7 +16,7 @@ depends_on: &GOOD_TO_MERGE_DEPENDENTS
     job_key: lint
     states: [passed]
   good to merge of the datalayer:
-    job_key: good-to-merge
+    job_key: merged-to-master
     type: job
     submodule: [datalayer]
     states: [passed]
