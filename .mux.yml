@@ -1,0 +1,27 @@
+name: MADEK/madek/mail
+windows:
+  2:
+    name: server-run
+    command: |
+      pg_env_set 15
+      export DB_NAME=madek
+      export PGDATABASE=madek
+      ./bin/clj-dev server
+  5:
+    name: psql
+    command: |
+      pg_env_set 15
+      psql -d madek
+
+  6:
+    name: datalayer
+    command: |
+      pg_env_set 15
+      cd datalayer
+
+  7:
+    name: test
+    command: |
+      pg_env_set 15
+      ./bin/rspec -h
+
