@@ -13,7 +13,6 @@ context:
         submodule: [datalayer]
       - cider-ci/task-components/ruby-bundle.yml
       - cider-ci/task-components/server.yml
-      - cider-ci/task-components/uberjar.yml
 
     git_options:
       submodules:
