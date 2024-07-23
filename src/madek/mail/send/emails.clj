@@ -75,12 +75,13 @@
   (catcher/snatch
    {:level :warn}
    (doseq [email emails]
-     (let [result (try (-> (send-email! email))
+     (let [result (try (send-email! email)
                        (catch Exception e
                          (log/warn (-> e
                                        exception/get-cause
                                        thrown/to-string))
                          {:message (.getMessage e)}))]
+       (info result)
        (-> email
            (prepare-email-row result)
            update-email!)))))
