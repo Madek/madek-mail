@@ -52,10 +52,8 @@
       (->> (jdbc-query (get-ds)))
       first))
 
-; (def db-settings
-;   (memoize/ttl db-settings-uncached :ttl/threshold 1000))
-
-(def db-settings db-settings-uncached)
+(def db-settings
+  (memoize/ttl db-settings-uncached :ttl/threshold 1000))
 
 (defn host-address
   []
