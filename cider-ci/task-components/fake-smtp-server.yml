@@ -1,3 +1,5 @@
+include: cider-ci/task-components/ruby-bundle.yml
+
 scripts:
 
   run-fake-smtp-server:

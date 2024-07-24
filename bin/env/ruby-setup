@@ -5,11 +5,8 @@ PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 &
 ASDF_PLUGIN=ruby
 ASDF_PLUGIN_URL=https://github.com/asdf-vm/asdf-ruby.git
 
-echo "ONE"
 source $PROJECT_DIR/bin/env/asdf-helper.bash
-echo "TWO"
 asdf-update-plugin
-echo "THREE"
 
 bundle install --quiet
 # vi: ft=sh

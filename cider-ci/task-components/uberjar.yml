@@ -1,4 +1,4 @@
-include: cider-ci/task-components/ruby-bundle.yml
+# include: cider-ci/task-components/ruby-bundle.yml
 
 git_options:
   submodules:
@@ -10,7 +10,7 @@ scripts:
     exclusive_executor_resource: build-madek-mail-jar
     body: cd $MADEK_MAIL_DIR && ./bin/build
 
-    start_when:
-      ruby-install:
-        script_key: mail-ruby-bundle
+    # start_when:
+    #   ruby-install:
+    #     script_key: mail-ruby-bundle
 
