@@ -7,7 +7,6 @@ require 'config/bundle'
 require 'config/rails'
 require 'config/database'
 require 'config/emails'
-require 'config/mail'
 require 'pry'
 
 
@@ -25,7 +24,7 @@ RSpec.configure do |config|
 
   config.before(:example) do |example|
     srand 1
-    update_smtp_settings
+    setup_smtp_settings
   end
 
 end
