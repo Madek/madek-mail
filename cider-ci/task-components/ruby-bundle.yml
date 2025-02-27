@@ -1,6 +1,7 @@
 traits:
   asdf: true
 
+
 scripts:
   mail-ruby-bundle:
     exclusive_executor_resource: asdf-ruby
