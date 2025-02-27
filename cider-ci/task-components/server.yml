@@ -2,6 +2,7 @@ include: cider-ci/task-components/uberjar.yml
 
 traits:
   JDK: true
+  ci-ax101-06: true
 
 scripts:
   run-mail-server:

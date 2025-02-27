@@ -22,6 +22,7 @@ context:
 
     traits:
       asdf: true
+      ci-ax101-06: true
 
     ports:
       MADEK_MAIL_POP3_PORT:
