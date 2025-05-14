@@ -8,6 +8,7 @@
         com.zaxxer/HikariCP {:mvn/version "5.0.1"}
         environ/environ {:mvn/version "1.2.0"}
         funcool/cuerdas {:mvn/version "2022.06.16-403"}
+        io.github.tonsky/clj-reload {:mvn/version "0.9.6"}
         logbug/logbug {:mvn/version "5.0.0"}
         nrepl/nrepl {:mvn/version "1.0.0"}
         org.clojure/core.memoize {:mvn/version "1.0.257"}

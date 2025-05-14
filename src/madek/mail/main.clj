@@ -7,6 +7,7 @@
    [logbug.debug :as debug]
    [logbug.thrown]
    [madek.mail.db.core :as db]
+   [madek.mail.reload :as reload]
    [madek.mail.send.core :as send]
    [madek.mail.smtp :as smtp]
    [madek.mail.utils.exit :as exit]
@@ -65,13 +66,9 @@
 
 ;; main ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defonce args* (atom nil))
-
-(defn main []
+(defn main [args]
   (logging/init)
-  (info "main args:" @args*)
-  (let [args @args*
-        {:keys [options arguments errors summary]}
+  (let [{:keys [options arguments errors summary]}
         (cli/parse-opts args cli-options :in-order true)
         options (into (sorted-map) options)
         cmd (some-> arguments first keyword)]
@@ -83,14 +80,15 @@
               (println (main-usage summary {:args args :options options}))))))
 
 (defn -main [& args]
+  (info "main args:" args)
   ;(logbug.thrown/reset-ns-filter-regex #".*madek.*")
-  (reset! args* args)
-  (main))
+  (reset! reload/args* args)
+  (main args))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; hot reload on require
-(when @args* (main))
+(when @reload/args* (main @reload/args*))
 
 ;### Debug ####################################################################
 ;(debug/debug-ns 'madek.api.utils.rdbms)
