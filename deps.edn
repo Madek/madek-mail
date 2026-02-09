@@ -1,5 +1,5 @@
 {:paths ["src" :resource-paths]
- :deps {clj-commons/clj-yaml {:mvn/version "1.0.26"}
+ :deps {clj-commons/clj-yaml {:mvn/version "1.0.27"}
         clj-pid/clj-pid {:mvn/version "0.1.2"}
         com.draines/postal {:mvn/version "2.0.5"}
         com.github.seancorfield/honeysql {:mvn/version "2.4.1026"}
@@ -10,15 +10,20 @@
         funcool/cuerdas {:mvn/version "2022.06.16-403"}
         logbug/logbug {:mvn/version "5.0.0"}
         nrepl/nrepl {:mvn/version "1.0.0"}
+        org.clojure/clojure {:mvn/version "1.11.4"}
         org.clojure/core.memoize {:mvn/version "1.0.257"}
         org.clojure/tools.cli {:mvn/version "1.0.219"}
-        org.postgresql/postgresql {:mvn/version "42.6.0"}
+        org.postgresql/postgresql {:mvn/version "42.6.2"}
         spootnik/signal {:mvn/version "0.2.4"}
         pg-types/pg-types {:mvn/version  "3.0.0"}}
 
  :aliases {:resource-paths ["resources"]
            :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "2.4.1070"}}
                       :main-opts ["-m" "antq.core"]}
+           :clj-watson {:replace-deps
+                        {io.github.clj-holmes/clj-watson
+                         {:git/tag "v6.0.1" :git/sha "b520351"}}
+                        :main-opts ["-m" "clj-watson.cli"]}
            :cljfmt {:extra-deps {io.github.weavejester/cljfmt
                                  {:git/tag "0.12.0"
                                   :sha "434408f6909924f524c8027b37422d32bb49622d"}}
