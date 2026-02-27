@@ -7,4 +7,16 @@ cd $PROJECT_DIR
 ${PROJECT_DIR}/bin/env/java-setup
 ${PROJECT_DIR}/bin/env/clojure-setup
 
+# Ensure clojure is in PATH
+source $PROJECT_DIR/bin/env/select-tool-versions-manager
+case "$TOOL_VERSIONS_MANAGER" in
+  mise)
+    eval "$(mise activate bash --shims)"
+    ;;
+  asdf|asdf-vm)
+    source "$PROJECT_DIR/bin/env/asdf-helper.bash"
+    asdf-load
+    ;;
+esac
+
 clojure -T:build uber
