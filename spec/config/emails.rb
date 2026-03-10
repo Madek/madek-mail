@@ -27,7 +27,7 @@ end
 private
 
 def setup_smtp_settings
-  SmtpSetting.first.update(is_enabled: true, port: MADEK_MAIL_SMTP_PORT)
+  SmtpSetting.find_or_create_by!(id: 0).update!(is_enabled: true, port: MADEK_MAIL_SMTP_PORT)
   sleep 1.1 # due to memoized smtp settings in the mail app
 end
 
