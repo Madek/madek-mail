@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Runs the java pinned in .tool-versions, installed and selected via the tool
+# versions manager (mise or asdf), instead of whatever java is on the PATH.
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+${PROJECT_DIR}/bin/env/java-setup
+
+source $PROJECT_DIR/bin/env/select-tool-versions-manager
+case "$TOOL_VERSIONS_MANAGER" in
+  mise)
+    # resolve the java pinned in the project's .tool-versions explicitly:
+    # shims lose against another java earlier on the PATH; the caller's
+    # working directory is kept
+    JAVA_BIN="$(cd "$PROJECT_DIR" && mise which java)"
+    exec "$JAVA_BIN" "$@"
+    ;;
+  asdf|asdf-vm)
+    source "$PROJECT_DIR/bin/env/asdf-helper.bash"
+    asdf-load
+    exec java "$@"
+    ;;
+esac
+
+# vi: ft=sh

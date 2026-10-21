@@ -1,8 +1,5 @@
 include: cider-ci/task-components/uberjar.yml
 
-traits:
-  JDK: true
-
 scripts:
   run-mail-server:
     start_when:
@@ -17,7 +14,7 @@ scripts:
       mkdir -p tmp
       unset PGPORT; unset PGUSER
       PGPORT=${PG15PORT} PGUSER=${PG15USER} \
-        java -jar madek-mail.jar --db-name ${DATABASE} --pid-file tmp/service.pid run "$@"
+        ./bin/java -jar madek-mail.jar --db-name ${DATABASE} --pid-file tmp/service.pid run "$@"
 
   mail-server-is-running:
     start_when:
