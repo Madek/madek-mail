@@ -52,7 +52,7 @@
     :throwable Throwable
     :return-fn (fn [e] (System/exit -1))}
    (info 'madek.mail.main "initializing ...")
-   (info "Effective startup options " options)
+   (info "Effective startup options " (update options :db-password db/mask-secret))
    ; ---------------------------------------------------------
    ; WIP switching to new db container; remove old rdbms later
    ; (rdbms/initialize (config/get-db-spec :api))
@@ -75,7 +75,7 @@
         (cli/parse-opts args cli-options :in-order true)
         options (into (sorted-map) options)
         cmd (some-> arguments first keyword)]
-    (info {'options options 'cmd cmd})
+    (info {'options (update options :db-password db/mask-secret) 'cmd cmd})
     (cond
       (:help options) (println (main-usage summary {:args args :options options}))
       :else (case cmd

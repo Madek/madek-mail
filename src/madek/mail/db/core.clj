@@ -117,10 +117,13 @@
     (reset! ds* ds)
     @ds*))
 
+(defn mask-secret [s]
+  (if (seq s) (str (subs s 0 (min 3 (count s))) "...") s))
+
 (defn init
   ([options]
    (let [db-options (select-keys options options-keys)]
-     (info "Initializing db " db-options)
+     (info "Initializing db " (update db-options db-password-key mask-secret))
      (init-ds db-options)
      (info "Initialized db " @ds*)
      @ds*)))
